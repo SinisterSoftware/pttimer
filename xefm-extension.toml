@@ -1,6 +1,6 @@
 [extension]
 id = "pttimer"
-version = "0.1.0"
+version = "0.1.1"
 api_version = 1
 name = "ptTimer"
 description = "Browse ptTimer.db (TV recording reservations and EPG) as a read-only pttimer:// folder."
