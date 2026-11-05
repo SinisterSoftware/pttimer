@@ -1,0 +1,59 @@
+[extension]
+id = "pttimer"
+version = "0.1.0"
+api_version = 1
+name = "ptTimer"
+description = "Browse ptTimer.db (TV recording reservations and EPG) as a read-only pttimer:// folder."
+min_xefm = "1.10.0"
+platforms = ["windows"]
+updates = "github:SinisterSoftware/xefm-pttimer"
+
+[contributes.actions]
+"pttimer.edit" = { entry = "pttimer.actions:edit", description = "Edit the focused pttimer reservation" }
+"pttimer.epg-search" = { entry = "pttimer.actions:epg_search", description = "Search the pttimer EPG" }
+
+[contributes.path_schemes]
+pttimer = "pttimer.logic:PTTIMER_SCHEME"
+
+[contributes.attributes.pt_channel]
+label = "チャンネル"
+type = "text"
+read = "pttimer.layout:channel"
+where = ["pttimer"]
+
+[contributes.attributes.pt_minutes]
+label = "録画時間"
+type = "count"
+read = "pttimer.layout:minutes"
+where = ["pttimer"]
+
+[contributes.attributes.pt_start]
+label = "開始"
+type = "time"
+read = "pttimer.layout:start"
+where = ["pttimer"]
+
+[contributes.attributes.pt_state]
+label = "予約状態"
+type = "enum"
+read = "pttimer.layout:state"
+where = ["pttimer"]
+values = { on = { label = "有効", color = "green" }, off = { label = "無効", color = "red" } }
+
+[contributes.layout_extras.pttimer]
+label = "ptTimer"
+when = "pttimer.layout:in_pttimer"
+columns = [
+  { attr = "pt_start", format = "pttimer.layout:fmt_start", width = 15, align = "right", replace = "size" },
+  { attr = "pt_minutes", format = "pttimer.layout:fmt_minutes", width = 6, align = "right", replace = "mtime" },
+    { attr = "pt_channel", width = 12, replace = "ext" },
+]
+markers = [
+  { attr = "pt_state", format = "pttimer.layout:fmt_state", on = "name", side = "before" },
+]
+
+[contributes.key_suggestions]
+"pttimer.epg-search" = ["Alt-G"]
+
+[settings]
+defaults = "pttimer.settings:Settings"
